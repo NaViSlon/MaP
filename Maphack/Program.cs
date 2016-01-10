@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -20,12 +20,13 @@ namespace Maphack
         private static readonly Hero[] Heroes = new Hero[40];
         private static readonly int[] HeroesPlayerPosition = new int[40];
         private static int _nHeroes = 0;
+      
 
         private static readonly Vector2 HeroColorSize = new Vector2(80, 55);
         private static readonly Vector2 HeroColorSizeHalf = new Vector2(40, 27.5f);
         private static readonly Vector2 HeroIconSize = new Vector2(75, 50);
         private static readonly Vector2 HeroIconSizeHalf = new Vector2(37.5f, 25);
-
+        private static bool loaded = true;
         private static Font _text;
 
         private static readonly Color[] PlayerColor =
@@ -122,6 +123,17 @@ namespace Maphack
 
         public static void Game_OnUpdate(EventArgs args)
         {
+
+            if (loaded)
+            {  
+                Game.PrintMessage(
+                  "<font face='Tahoma'><font color='#000000'>[--</font> <font color='#33ff66'>MapHack Fixed</font> by <font color='#999999'>NaVi_Slon </font> ensage-forum.ru <font color='#000000'>--]</font></font>",
+                  MessageType.LogMessage);
+                loaded = false;
+            }
+                
+              
+            
             //we only proceed if 1 of the following condition is True
             //+ Forced refresh hotkey is Active and slept for 50ms
             //+ Repeat hotkey is Active and SleepCheck is off CD
@@ -135,8 +147,13 @@ namespace Maphack
             _minimapCorner = (int) Math.Floor(11.0 * Drawing.Height / 1080);
 
             //backup camera position
+           
+            
+           
             Game.GetConsoleVar("sv_cheats").SetValue(1);
             Game.ExecuteCommand("cl_fullupdate");
+         //   string z = Game.GetConsoleVar("dota_camera_get_lookatpos ").GetString();
+           // Game.ExecuteCommand("dota_camera_set_lookatpos" + z );
 
             //get the game state
             var me = ObjectMgr.LocalPlayer;
